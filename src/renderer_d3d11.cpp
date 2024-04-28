@@ -3000,6 +3000,8 @@ namespace bgfx { namespace d3d11
 			}
 
 			m_deviceCtx->RSSetState(rs);
+			if (getRefCount(rs) > 1)
+				rs->Release();
 		}
 
 		ID3D11SamplerState* getSamplerState(uint32_t _flags, const float _rgba[4])
@@ -5629,6 +5631,7 @@ namespace bgfx { namespace d3d11
 
 		bool wireframe = !!(_render->m_debug&BGFX_DEBUG_WIREFRAME);
 		bool scissorEnabled = false;
+
 		setDebugWireframe(wireframe);
 
 		ProgramHandle currentProgram = BGFX_INVALID_HANDLE;
